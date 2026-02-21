@@ -1,0 +1,401 @@
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--background-color-light);
+    color: var(--text-color-light);
+    display: flex;
+    flex-direction: column; /* Changed to column to accommodate theme toggle */
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    --background-color-light: #f0f4f8;
+    --text-color-light: #333;
+    --container-bg-light: #fff;
+    --h1-color-light: #1a73e8;
+    --form-border-light: #ccc;
+    --button-bg-light: #1a73e8;
+    --button-hover-light: #155ab6;
+    --reminders-h2-color-light: #1a73e8;
+    --reminders-border-light: #eee;
+    --li-bg-light: #f8f9fa;
+    --li-text-color-light: #555;
+    --notes-color-light: #666;
+    --ringing-bg-light: #fff3cd;
+    --ringing-border-light: #ffc107;
+    --li-shadow-color: rgba(0,0,0,0.05);
+}
+
+body.dark-mode {
+    --background-color-light: #2c3e50;
+    --text-color-light: #ecf0f1;
+    --container-bg-light: #34495e;
+    --h1-color-light: #3498db;
+    --form-border-light: #555;
+    --button-bg-light: #3498db;
+    --button-hover-light: #2980b9;
+    --reminders-h2-color-light: #3498db;
+    --reminders-border-light: #444;
+    --li-bg-light: #2c3e50;
+    --li-text-color-light: #bdc3c7;
+    --notes-color-light: #95a5a6;
+    --ringing-bg-light: #4a4a00; /* Darker yellow for contrast */
+    --ringing-border-light: #e0b000; /* Darker orange for contrast */
+    --li-shadow-color: #111;
+
+    background-color: var(--background-color-light);
+    color: var(--text-color-light);
+}
+
+.container {
+    background-color: var(--container-bg-light);
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    position: relative; /* Needed for alarm notification positioning */
+    transition: background-color 0.3s ease;
+}
+
+h1 {
+    color: var(--h1-color-light);
+    margin-bottom: 1.5rem;
+    transition: color 0.3s ease;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+    text-align: left;
+}
+
+.form-group-checkbox {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.form-group-checkbox input[type="checkbox"] {
+    width: auto;
+    margin-right: 10px;
+}
+
+.form-group-checkbox label {
+    margin-bottom: 0; /* Override default label margin */
+}
+
+.form-group-days {
+    margin-bottom: 1rem;
+    text-align: left;
+}
+
+.form-group-days label {
+    display: inline-block;
+    margin-right: 10px;
+    font-weight: 600;
+}
+
+.form-group-days div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.form-group-days input[type="checkbox"] {
+    width: auto; /* Override full width for checkboxes */
+    margin-right: 2px;
+}
+
+.form-group-days label[for^="day-"] {
+    font-size: 0.85rem;
+    font-weight: normal;
+    margin-bottom: 0;
+}
+
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+input[type="text"],
+input[type="time"],
+input[type="number"],
+input[type="color"], /* Added input type color */
+textarea { 
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--form-border-light);
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-size: 1rem;
+    background-color: var(--container-bg-light); /* Ensure input background matches container */
+    color: var(--text-color-light);
+    transition: border-color 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+}
+
+input[type="color"] {
+    height: 44px; /* Adjust height for color input */
+    padding: 0.25rem;
+}
+
+textarea {
+    resize: vertical; 
+    min-height: 60px; 
+}
+
+button {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: var(--button-bg-light);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: var(--button-hover-light);
+}
+
+#reminders-list {
+    margin-top: 2rem;
+}
+
+#reminders-list h2 {
+    color: var(--reminders-h2-color-light);
+    border-bottom: 2px solid var(--reminders-border-light);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+    transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    background-color: transparent; /* Removed hardcoded background */
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    display: flex;
+    flex-direction: column; 
+    align-items: flex-start; 
+    border: 2px solid var(--form-border-light); /* Added border */
+    box-shadow: 0 2px 4px var(--li-shadow-color); /* Updated box-shadow */
+    position: relative; 
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+li > div { 
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+li span {
+    font-weight: 500;
+    color: var(--text-color-light);
+    transition: color 0.3s ease;
+}
+
+.reminder-notes {
+    font-size: 0.85rem;
+    color: var(--notes-color-light);
+    margin-top: 0.5rem;
+    text-align: left;
+    transition: color 0.3s ease;
+}
+
+.dosage-info {
+    font-size: 0.85rem;
+    color: var(--li-text-color-light);
+    margin-top: 0.5rem;
+    text-align: left;
+    transition: color 0.3s ease;
+}
+
+.low-stock {
+    color: #e74c3c; 
+    font-weight: 600;
+}
+
+.low-stock-warning {
+    color: #e74c3c;
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+    animation: fadeEffect 1.5s infinite alternate;
+}
+
+@keyframes fadeEffect {
+    0% { opacity: 1; }
+    100% { opacity: 0.7; }
+}
+
+.delete-btn {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 0.3rem 0.6rem;
+    border-radius: 5px;
+    cursor: pointer;
+    align-self: flex-end; 
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+/* Alarm Notification Styles - unchanged as it's a fixed overlay */
+#alarm-notification {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    text-align: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+#alarm-notification.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+#alarm-notification p {
+    margin-bottom: 1.5rem;
+}
+
+#alarm-notification button {
+    width: auto;
+    padding: 0.8rem 1.5rem;
+    margin: 0 10px;
+    font-size: 1.2rem;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+#dismiss-alarm {
+    background-color: #e74c3c;
+}
+
+#snooze-alarm {
+    background-color: #f39c12;
+}
+
+/* Ringing reminder visual feedback */
+li.ringing {
+    background-color: var(--ringing-bg-light); 
+    border: 2px solid var(--ringing-border-light); 
+    animation: pulse 1s infinite alternate;
+}
+
+@keyframes pulse {
+    from {
+        transform: scale(1);
+    }
+    to {
+        transform: scale(1.02);
+    }
+}
+
+.data-management {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.data-management button {
+    width: auto;
+    margin: 0;
+}
+
+/* Theme Toggle Switch */
+.theme-switch-wrapper {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 100;
+}
+
+.theme-switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.theme-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: #2196F3;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Medicine Reminder</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+    <div class="theme-switch-wrapper">
+        <label class="theme-switch" for="theme-toggle">
+            <input type="checkbox" id="theme-toggle">
+            <div class="slider round"></div>
+        </label>
+    </div>
+    <div class="container">
+        <h1>Smart Medicine Reminder 💊</h1>
+        <form id="reminder-form">
+            <div class="form-group">
+                <label for="medicine-name">Medicine Name</label>
+                <input type="text" id="medicine-name" placeholder="e.g., Paracetamol" required>
+            </div>
+            <div class="form-group">
+                <label for="reminder-time">Select Time</label>
+                <input type="time" id="reminder-time" required>
+            </div>
+            <div class="form-group">
+                <label for="medicine-notes">Notes (Optional)</label>
+                <textarea id="medicine-notes" placeholder="e.g., Take with food, 2 pills"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="medicine-dosage">Dosage (pills/dose)</label>
+                <input type="number" id="medicine-dosage" value="1" min="1">
+            </div>
+            <div class="form-group">
+                <label for="medicine-stock">Current Stock</label>
+                <input type="number" id="medicine-stock" value="0" min="0">
+            </div>
+            <div class="form-group-days">
+                <label>Repeat On:</label>
+                <div>
+                    <input type="checkbox" id="day-sun" value="0"><label for="day-sun">Sun</label>
+                    <input type="checkbox" id="day-mon" value="1"><label for="day-mon">Mon</label>
+                    <input type="checkbox" id="day-tue" value="2"><label for="day-tue">Tue</label>
+                    <input type="checkbox" id="day-wed" value="3"><label for="day-wed">Wed</label>
+                    <input type="checkbox" id="day-thu" value="4"><label for="day-thu">Thu</label>
+                    <input type="checkbox" id="day-fri" value="5"><label for="day-fri">Fri</label>
+                    <input type="checkbox" id="day-sat" value="6"><label for="day-sat">Sat</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="snooze-duration">Snooze Duration (minutes)</label>
+                <input type="number" id="snooze-duration" value="5" min="1">
+            </div>
+            <div class="form-group">
+                <label for="reminder-color">Reminder Color</label>
+                <input type="color" id="reminder-color" value="#1a73e8">
+            </div>
+            <div class="form-group-checkbox">
+                <input type="checkbox" id="enable-speech">
+                <label for="enable-speech">Enable Speech Alarm</label>
+            </div>
+            <button type="submit">Set Reminder</button>
+        </form>
+
+        <div class="data-management">
+            <button id="export-data">Export Data</button>
+            <button id="import-data">Import Data</button>
+            <input type="file" id="import-file" accept=".json" style="display: none;">
+        </div>
+        
+        <div id="reminders-list">
+            <h2>Your Reminders</h2>
+            <ul id="reminders"></ul>
+        </div>
+        <div id="history-list">
+            <h2>Reminder History</h2>
+            <button id="clear-history">Clear History</button>
+            <ul id="history"></ul>
+        </div>
+    </div>
+    <audio id="alarm-sound" src="alarm.mp3" preload="auto"></audio>
+    <script src="script.js"></script>
+</body>
+</html>
